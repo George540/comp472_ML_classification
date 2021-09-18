@@ -3,10 +3,14 @@ from matplotlib import pyplot as plt
 import numpy as np
 #import os package to use file related methods
 import os
+
+from sklearn import *
+
+directories = ["Datasets\\BBC\\business", "Datasets\\BBC\\entertainment", "Datasets\\BBC\\politics", "Datasets\\BBC\\sport" ,"Datasets\\BBC\\tech"]
+categories = ["Business", "Entertainment", "Politics", "Sport", "Technology"]
+
 #initialization of file directories
 def plot_bbc_groups():
-    directories = ["Datasets\\BBC\\business", "Datasets\\BBC\\entertainment", "Datasets\\BBC\\politics", "Datasets\\BBC\\sport" ,"Datasets\\BBC\\tech"]
-    categories = ["Business", "Entertainment", "Politics", "Sport", "Technology"]
     nbrFilesPerCtgry = []
 
     for directory in directories:
@@ -22,4 +26,17 @@ def plot_bbc_groups():
     #plt.show()
     plt.savefig("Results//BBC-distribution.pdf", dpi = 100)
 
-plot_bbc_groups()
+def assign_category_name():
+
+    data = datasets.load_files("Datasets\\BBC", encoding = "latin1")
+
+    vectorized = feature_extraction.text.CountVectorizer(input='data')
+    matrix = vectorized.fit_transform(data)
+    print(vectorized.vocabulary)
+    
+    
+
+
+#plot_bbc_groups()
+assign_category_name()
+
