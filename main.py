@@ -5,6 +5,7 @@ import os
 from sklearn import *
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
 
 directories = ["Datasets\\BBC\\business", "Datasets\\BBC\\entertainment", "Datasets\\BBC\\politics", "Datasets\\BBC\\sport" ,"Datasets\\BBC\\tech"]
 categories = ["Business", "Entertainment", "Politics", "Sport", "Technology"]
@@ -36,11 +37,15 @@ def assign_category_name():
     bbc_loaded_files = datasets.load_files("Datasets\\BBC", encoding = "latin1")
     vectorizer = CountVectorizer()
     full_data_set = vectorizer.fit_transform(bbc_loaded_files.data)
+    
     #print(list(zip(vectorizer.get_feature_names(), full_data_set.sum(0).getA1())))
-
-    train_subset, test_subset = train_test_split(full_data_set, test_size=0.2, random_state = None)
-    print(train_subset.shape[0])
-    print(full_data_set.shape[0])
+    training_set, testing_set = train_test_split(full_data_set, test_size=0.2, random_state = None)
+    #print(training_set.shape[0])
+    #print(testing_set.shape[0])
+    clf = MultinomialNB()
+    clf.fit(training_set, testing_set)
+    MultinomialNB()
+    print(clf.predict(testing_set))
     
 #plot_bbc_groups()
 assign_category_name()
