@@ -2,11 +2,11 @@
 from matplotlib import pyplot as plt
 import numpy as np
 import os
-from numpy.core.numeric import full
-from sklearn import *
+from sklearn.datasets import load_files
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import classification_report, accuracy_score
 
 directories = ["Datasets\\BBC\\business", "Datasets\\BBC\\entertainment", "Datasets\\BBC\\politics", "Datasets\\BBC\\sport" ,"Datasets\\BBC\\tech"]
 categories = ["Business", "Entertainment", "Politics", "Sport", "Technology"]
@@ -35,23 +35,30 @@ def assign_category_name():
     4 - Pre-processes the dataset to have the features ready to be used by multinomial Naive Bayes classifier
     5 - Splits the dataset into 80% for training and 20% for testing
     '''
-    bbc_loaded_files = datasets.load_files("Datasets\\BBC", encoding = "latin1")
+    'Question 3'
+    bbc_loaded_files = load_files("Datasets\\BBC", encoding = "latin1")
+    #verify the count of each category and get the target names (categories) and store as 'labels_str' now labels is value 0-4
+    labels, counts = np.unique(bbc_loaded_files.target, return_counts=True)
+    labels_str = np.array(bbc_loaded_files.target_names)[labels]
+    print(labels_str,counts)
+    'Question 5'
+    #bbc_loadfiles.data is the data itself
+    #bbc_loadfiles.target is the labels/categories
+    X_train, X_test, Y_train, Y_test = train_test_split(bbc_loaded_files.data, bbc_loaded_files.target, test_size=0.2, random_state = None)
+    print('80%:',len(X_train),'20%:',len(X_test))
+    'Question 4'
+    #it is best to use only the testing set to form our matrix
     vectorizer = CountVectorizer()
-    full_data_set = vectorizer.fit_transform(bbc_loaded_files.values) #X value
-    
-    #print(full_data_set.data) #frequency
-    #print(full_data_set.indices) #position in matrix
-    #print(full_data_set.data)
-
-    #print(list(zip(vectorizer.get_feature_names(), full_data_set.sum(0).getA1())))
-    #X_training_set, X_testing_set, y_training_Set, y_testing_set = train_test_split(full_data_set.data, categories, test_size=0.2, random_state = None)
-    #print(training_set.shape[0])
-    #print(testing_set.shape[0])
-    #clf = MultinomialNB()
-    #clf.fit(training_set, testing_set)
-    #MultinomialNB()
+    training_data_transform = vectorizer.fit_transform(X_train)
+    'Question 6'
+    cls = MultinomialNB()
+    cls.fit(training_data_transform , Y_train)
     #print(clf.predict(testing_set))
-    
+    Y_pred = cls.predict(X_test)
+    #print(accuracy_score(Y_test, Y_pred))
+    print(classification_report(Y_test, Y_pred))
+
+
 #plot_bbc_groups()
 assign_category_name()
 
