@@ -6,7 +6,7 @@ from sklearn.datasets import load_files
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import classification_report, accuracy_score
+from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
 
 directories = ["Datasets\\BBC\\business", "Datasets\\BBC\\entertainment", "Datasets\\BBC\\politics", "Datasets\\BBC\\sport" ,"Datasets\\BBC\\tech"]
 categories = ["Business", "Entertainment", "Politics", "Sport", "Technology"]
@@ -45,19 +45,31 @@ def assign_category_name():
     #bbc_loadfiles.data is the data itself
     #bbc_loadfiles.target is the labels/categories
     X_train, X_test, Y_train, Y_test = train_test_split(bbc_loaded_files.data, bbc_loaded_files.target, test_size=0.2, random_state = None)
-    print('80%:',len(X_train),'20%:',len(X_test))
+    #print('80%:',len(X_train),'20%:',len(X_test))
     'Question 4'
     #it is best to use only the testing set to form our matrix
     vectorizer = CountVectorizer()
     vectorizer.fit(X_train)
-    'Question 6'
+    'Question 6/7a'
     clf = MultinomialNB()
     #transform the data to document term matrix and pass labels
     clf.fit(vectorizer.transform(X_train) , Y_train)
     #print(clf.predict(testing_set))
     Y_pred = clf.predict(vectorizer.transform(X_test))
-    print(accuracy_score(Y_test, Y_pred))
-    print(classification_report(Y_test, Y_pred))
+    'Question 7'
+    #print(confusion_matrix(Y_test, Y_pred)) #b
+    #print(classification_report(Y_test, Y_pred)) #c
+    #print(accuracy_score(Y_test, Y_pred)) #d
+    #print(labels_str, counts/len(bbc_loaded_files.target)) #e
+    print(len(vectorizer.get_feature_names())) #f
+
+    #7h
+    total_words = 0;
+    word_frequency = vectorizer.fit_transform(bbc_loaded_files.data).toarray().sum(axis=0)
+    for x in range(0, len(word_frequency)):
+        total_words += word_frequency[x]
+    print(total_words)
+
 
 
 #plot_bbc_groups()
