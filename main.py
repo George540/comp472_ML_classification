@@ -49,13 +49,14 @@ def assign_category_name():
     'Question 4'
     #it is best to use only the testing set to form our matrix
     vectorizer = CountVectorizer()
-    training_data_transform = vectorizer.fit_transform(X_train)
+    vectorizer.fit(X_train)
     'Question 6'
-    cls = MultinomialNB()
-    cls.fit(training_data_transform , Y_train)
+    clf = MultinomialNB()
+    #transform the data to document term matrix and pass labels
+    clf.fit(vectorizer.transform(X_train) , Y_train)
     #print(clf.predict(testing_set))
-    Y_pred = cls.predict(X_test)
-    #print(accuracy_score(Y_test, Y_pred))
+    Y_pred = clf.predict(vectorizer.transform(X_test))
+    print(accuracy_score(Y_test, Y_pred))
     print(classification_report(Y_test, Y_pred))
 
 
