@@ -61,7 +61,16 @@ def assign_category_name():
     #print(classification_report(Y_test, Y_pred)) #c
     #print(accuracy_score(Y_test, Y_pred)) #d
     #print(labels_str, counts/len(bbc_loaded_files.target)) #e
-    print(len(vectorizer.get_feature_names())) #f
+    #print(len(vectorizer.get_feature_names())) #f
+
+    #7g
+    topics_word_count = []
+    for topic in bbc_loaded_files.target_names:
+        topic_list = []
+        topic_list.append(topic)
+        topics_word_count.append(load_files_by_category(topic_list))
+
+    print(topics_word_count)
 
     #7h
     total_words = 0;
@@ -70,7 +79,11 @@ def assign_category_name():
         total_words += word_frequency[x]
     print(total_words)
 
-
+def load_files_by_category(c):
+    category_loaded_files = load_files("Datasets\\BBC", categories = c, encoding = "latin1")
+    vectorizer = CountVectorizer()
+    vectorizer.fit_transform(category_loaded_files.data)
+    return len(vectorizer.get_feature_names())
 
 #plot_bbc_groups()
 assign_category_name()
