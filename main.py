@@ -53,7 +53,7 @@ def assign_category_name():
     'Question 6/7a'
     clf = MultinomialNB()
     #transform the data to document term matrix and pass labels
-    clf.fit(vectorizer.transform(X_train) , Y_train)
+    X = clf.fit(vectorizer.transform(X_train) , Y_train)
     #print(clf.predict(testing_set))
     Y_pred = clf.predict(vectorizer.transform(X_test))
     'Question 7'
@@ -61,23 +61,12 @@ def assign_category_name():
     #print(classification_report(Y_test, Y_pred)) #c
     #print(accuracy_score(Y_test, Y_pred)) #d
     #print(labels_str, counts/len(bbc_loaded_files.target)) #e
-    #print(len(vectorizer.get_feature_names())) #f
+    print(len(vectorizer.get_feature_names())) #f
 
     #7g
-    topics_word_count = []
-    for topic in bbc_loaded_files.target_names:
-        topic_list = []
-        topic_list.append(topic)
-        topics_word_count.append(load_files_by_category(topic_list))
-
-    print(topics_word_count)
-
+    print(X.class_count_)
     #7h
-    total_words = 0;
-    word_frequency = vectorizer.fit_transform(bbc_loaded_files.data).toarray().sum(axis=0)
-    for x in range(0, len(word_frequency)):
-        total_words += word_frequency[x]
-    print(total_words)
+    print(X.class_count_.sum())
 
 def load_files_by_category(c):
     category_loaded_files = load_files("Datasets\\BBC", categories = c, encoding = "latin1")
