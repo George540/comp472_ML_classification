@@ -2,11 +2,12 @@
 from matplotlib import pyplot as plt
 import numpy as np
 import os
+import pandas as pd
 from sklearn.datasets import load_files
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
+from sklearn.metrics import classification_report, accuracy_score, confusion_matrix, f1_score
 
 directories = ["Datasets\\BBC\\business", "Datasets\\BBC\\entertainment", "Datasets\\BBC\\politics", "Datasets\\BBC\\sport" ,"Datasets\\BBC\\tech"]
 categories = ["Business", "Entertainment", "Politics", "Sport", "Technology"]
@@ -50,29 +51,59 @@ def assign_category_name():
     #it is best to use only the testing set to form our matrix
     vectorizer = CountVectorizer()
     vectorizer.fit(X_train)
+    doc_matrix = vectorizer.transform(X_train)
+    #print(vectorizer.get_feature_names())
     'Question 6/7a'
     clf = MultinomialNB()
     #transform the data to document term matrix and pass labels
-    X = clf.fit(vectorizer.transform(X_train) , Y_train)
-    #print(clf.predict(testing_set))
+    clf.fit(doc_matrix, Y_train)
     Y_pred = clf.predict(vectorizer.transform(X_test))
+    #print(clf.feature_count_)
+    #TODO turn above in to variable and iterate to count word count per row.
     'Question 7'
     #print(confusion_matrix(Y_test, Y_pred)) #b
     #print(classification_report(Y_test, Y_pred)) #c
     #print(accuracy_score(Y_test, Y_pred)) #d
-    #print(labels_str, counts/len(bbc_loaded_files.target)) #e
-    print(len(vectorizer.get_feature_names())) #f
-
+    print('--------------------------------------------------------------------------------------------')
+    print(f1_score(Y_test, Y_pred, average='macro'))#d pt2
+    print(f1_score(Y_test, Y_pred, average='weighted')) #d pt3
+    print(labels_str, counts/len(bbc_loaded_files.target)) #e
+    print(len(vectorizer.vocabulary_)) #f the total number of words in the vocabulary
+    print('-------------------------------------------G/H/I/J-------------------------------------------')
     #7g
-    print(X.class_count_)
-    #7h
-    print(X.class_count_.sum())
+    print(clf.classes_)
+    word_count_per_label = 0
+    total_words_in_corpus = 0
+    total_one_count_words_in_corpus = 0
+    matrix_array = clf.feature_count_
+    zero_count_for_this_label = 0
+    one_count_for_this_label = 0
+    curr_lbl = 0
+    for label in matrix_array:
+        #label prints out the array of a label/category
+        print(curr_lbl,': ',label)
+        for count_for_this_word in label:
+            if count_for_this_word == 0:
+                zero_count_for_this_label = zero_count_for_this_label +1
+            elif count_for_this_word == 1:
+                one_count_for_this_label = one_count_for_this_label + 1
+                word_count_per_label = word_count_per_label + count_for_this_word
+            else:
+                word_count_per_label = word_count_per_label + count_for_this_word
+        print('Word count for this label: ',word_count_per_label) #g
+        print('Number of zero counts per word found in this label: ', zero_count_for_this_label, ' Percentage: ', round(((zero_count_for_this_label/word_count_per_label)*100),2),'%')#I
+        total_words_in_corpus = word_count_per_label + total_words_in_corpus
+        total_one_count_words_in_corpus = one_count_for_this_label + total_one_count_words_in_corpus
+        zero_count_for_this_label = 0
+        word_count_per_label = 0
+        curr_lbl = curr_lbl + 1
+    print('\ntotal words in all folders/files: ', total_words_in_corpus)#h
+    print('Number of singular words in corpus: ', total_one_count_words_in_corpus, 'Percentage: ',round(((total_one_count_words_in_corpus/total_words_in_corpus)*100),2),'%')#J
+    print('--------------------------------------------------------------------------------------------')
+    #docmatrix_toarray = doc_matrix.toarray()
+    #test = pd.DataFrame(docmatrix_toarray, columns=vectorizer.get_feature_names())
+    #print(test)
 
-def load_files_by_category(c):
-    category_loaded_files = load_files("Datasets\\BBC", categories = c, encoding = "latin1")
-    vectorizer = CountVectorizer()
-    vectorizer.fit_transform(category_loaded_files.data)
-    return len(vectorizer.get_feature_names())
 
 #plot_bbc_groups()
 assign_category_name()
