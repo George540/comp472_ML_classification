@@ -100,9 +100,9 @@ def assign_category_name():
     print('\ntotal words in all folders/files: ', total_words_in_corpus)#h
     print('Number of singular words in corpus: ', total_one_count_words_in_corpus, 'Percentage: ',round(((total_one_count_words_in_corpus/total_words_in_corpus)*100),2),'%')#J
     print('--------------------------------------------------------------------------------------------')
-    #docmatrix_toarray = doc_matrix.toarray()
-    #test = pd.DataFrame(docmatrix_toarray, columns=vectorizer.get_feature_names())
-    #print(test)
+    docmatrix_toarray = doc_matrix.toarray()
+    test = pd.DataFrame(docmatrix_toarray, columns=vectorizer.get_feature_names())
+    print(test)
 
 
 #plot_bbc_groups()
