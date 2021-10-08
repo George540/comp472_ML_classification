@@ -1,4 +1,5 @@
 
+from operator import index
 from matplotlib import pyplot as plt
 import numpy as np
 import os
@@ -91,6 +92,7 @@ def assign_category_name(bbc_loaded_files,smoothing):
     zero_count_for_this_label = 0
     one_count_for_this_label = 0
     curr_lbl = 0
+    favorite_words = ['gaming', 'legendary']
     print("Gathering numerical data per label...")
     for label in matrix_array:
         #label prints out the array of a label/category
@@ -111,6 +113,9 @@ def assign_category_name(bbc_loaded_files,smoothing):
         zero_count_for_this_label = 0
         word_count_per_label = 0
         curr_lbl = curr_lbl + 1
+
+
+
     print('\nH, total words in all folders/files: ', total_words_in_X_train)#h
     print('J, Number of singular words in X_ train corpus: ', total_one_count_words_in_X_train, 'Percentage: ',round(((total_one_count_words_in_X_train/total_words_in_X_train)*100),2),'%')#J
     print("-"*58)
@@ -118,14 +123,20 @@ def assign_category_name(bbc_loaded_files,smoothing):
     #test = pd.DataFrame(docmatrix_toarray, columns=vectorizer.get_feature_names())
     #print((clf.feature_log_prob_)[0,0])
 
+    probabilities = clf.predict_log_proba(vectorizer.transform(favorite_words)) #7k
+    print(probabilities)
+    for col, label in enumerate(categories):
+        for row, word in enumerate(favorite_words):
+            print('[ %s ] Log-Prob of word \'%s\': %s' % (label, word.upper(), probabilities[row][col]))
+
 #plot_bbc_groups()
 
 print("-"*20,"try 1","-"*20)
 assign_category_name(bbc_loaded_files, 1.0)
 print("-"*20,"try 2","-"*20)
-assign_category_name(bbc_loaded_files, 1.0)
+#assign_category_name(bbc_loaded_files, 1.0)
 print("-"*20,"Smoothing 0.0001","-"*20)
-assign_category_name(bbc_loaded_files, 0.0001)
+#assign_category_name(bbc_loaded_files, 0.0001)
 print("-"*20,"Smoothing 0.9","-"*20)
-assign_category_name(bbc_loaded_files, 0.9)
+#assign_category_name(bbc_loaded_files, 0.9)
 
