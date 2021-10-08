@@ -78,7 +78,7 @@ def assign_category_name(bbc_loaded_files,smoothing):
     print(f1_score(Y_test, Y_pred, average='macro'))#d pt2
     print('\nF1 score, weighted: ')
     print(f1_score(Y_test, Y_pred, average='weighted')) #d pt3
-    print('\nPrio probability of each class: ')
+    print('\nPrior probability of each class: ')
     print(labels_str, counts/len(bbc_loaded_files.target)) #e
     print('\nTotal Number of words in the vocabulary: ')
     print(len(vectorizer.vocabulary_)) #f the total number of words in the vocabulary
@@ -112,7 +112,7 @@ def assign_category_name(bbc_loaded_files,smoothing):
         word_count_per_label = 0
         curr_lbl = curr_lbl + 1
     print('\nH, total words in all folders/files: ', total_words_in_X_train)#h
-    print('J, Number of singular words in corpus: ', total_one_count_words_in_X_train, 'Percentage: ',round(((total_one_count_words_in_X_train/total_words_in_X_train)*100),2),'%')#J
+    print('J, Number of singular words in X_ train corpus: ', total_one_count_words_in_X_train, 'Percentage: ',round(((total_one_count_words_in_X_train/total_words_in_X_train)*100),2),'%')#J
     print("-"*58)
     #docmatrix_toarray = doc_matrix.toarray()
     #test = pd.DataFrame(docmatrix_toarray, columns=vectorizer.get_feature_names())
