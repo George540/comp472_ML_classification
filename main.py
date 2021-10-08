@@ -13,7 +13,7 @@ directories = ["Datasets\\BBC\\business", "Datasets\\BBC\\entertainment", "Datas
 categories = ["Business", "Entertainment", "Politics", "Sport", "Technology"]
 
 bbc_loaded_files = load_files("Datasets\\BBC", encoding = "latin1")
-X_train, X_test, Y_train, Y_test = train_test_split(bbc_loaded_files.data, bbc_loaded_files.target, test_size=0.2, random_state = None)
+X_train, X_test, Y_train, Y_test = train_test_split(bbc_loaded_files.data, bbc_loaded_files.target, test_size=0.2, shuffle=False)
 vectorizer = CountVectorizer()
 vectorizer.fit(X_train)
 doc_matrix = vectorizer.transform(X_train)
@@ -94,7 +94,7 @@ def assign_category_name(bbc_loaded_files,smoothing):
     print("Gathering numerical data per label...")
     for label in matrix_array:
         #label prints out the array of a label/category
-        print(curr_lbl,': ',label)
+        print(labels_str[curr_lbl],': ',label)
         for count_for_this_word in label:
             if count_for_this_word == 0:
                 zero_count_for_this_label = zero_count_for_this_label +1
@@ -103,8 +103,8 @@ def assign_category_name(bbc_loaded_files,smoothing):
                 word_count_per_label = word_count_per_label + count_for_this_word
             else:
                 word_count_per_label = word_count_per_label + count_for_this_word
-        print(curr_lbl,':G, Word count for this label: ',word_count_per_label) #g
-        print(curr_lbl,':I, Number of zero counts per word found in this label: ', zero_count_for_this_label, ' Percentage: ', round(((zero_count_for_this_label/word_count_per_label)*100),2),'%')#I
+        print(labels_str[curr_lbl],':G, Word count for this label: ',word_count_per_label) #g
+        print(labels_str[curr_lbl],':I, Number of zero counts per word found in this label: ', zero_count_for_this_label, ' Percentage: ', round(((zero_count_for_this_label/word_count_per_label)*100),2),'%')#I
         print('-------------------')
         total_words_in_X_train = word_count_per_label + total_words_in_X_train
         total_one_count_words_in_X_train = one_count_for_this_label + total_one_count_words_in_X_train
