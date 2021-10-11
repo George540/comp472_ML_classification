@@ -47,7 +47,6 @@ def plot_bbc_groups():
     plt.ylabel('Files', fontsize=15)
     for i in range(len(categories)):
         plt.text(i, nbrFilesPerCtgry[i], nbrFilesPerCtgry[i], ha='center', va='bottom')
-    plt.show()
     plt.savefig("Results//BBC-distribution.pdf", dpi = 100)
 
 def assign_category_name(bbc_loaded_files,smoothing):
@@ -168,7 +167,7 @@ def assign_category_name(bbc_loaded_files,smoothing):
             f.write('\n[' +str(label)+' ] Log-Prob of word \''+str(word.upper())+'\':'+str(probabilities[row][col]))
 
 textfile_generator()
-#plot_bbc_groups()
+plot_bbc_groups()
 print("-"*20,"try 1","-"*20)
 assign_category_name(bbc_loaded_files, 1.0)
 print("-"*20,"try 2","-"*20)
