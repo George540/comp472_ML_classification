@@ -9,24 +9,35 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix, f1_score
 
+# TASK 1 - Question 3
+#Load files
 bbc_performance_file_name = 'Results\\bbc-performance.txt'
 directories = ["Datasets\\BBC\\business", "Datasets\\BBC\\entertainment", "Datasets\\BBC\\politics", "Datasets\\BBC\\sport" ,"Datasets\\BBC\\tech"]
 categories = ["Business", "Entertainment", "Politics", "Sport", "Technology"]
 bbc_loaded_files = load_files("Datasets\\BBC", encoding = "latin1")
+
+# TASK 1 - Question 5
+# Split data set
+#bbc_loadfiles.data is the data itself
+#bbc_loadfiles.target is the labels/categories
 X_train, X_test, Y_train, Y_test = train_test_split(bbc_loaded_files.data, bbc_loaded_files.target, test_size=0.2, shuffle=False)
+#print('80%:',len(X_train),'20%:',len(X_test))
+# TASK 1 - Question 4
+#Preprocess data set with CountVectorizer()
 vectorizer = CountVectorizer()
 vectorizer.fit(X_train)
 doc_matrix = vectorizer.transform(X_train)
 #print(vectorizer.get_feature_names())
+
 labels, counts = np.unique(bbc_loaded_files.target, return_counts=True)
 labels_str = np.array(bbc_loaded_files.target_names)[labels]
 
 def textfile_generator():
-    '''
-    Function verifies if bbc-performance.txt exists
-    IF file exists it will increment 1 to the name of the file
-    I.E. bbc-performance1.txt, bbc-performance2.txt, bbc-performance3.txt ect.. 
-    '''
+    
+    # Function verifies if bbc-performance.txt exists
+    # IF file exists it will increment 1 to the name of the file
+    # I.E. bbc-performance1.txt, bbc-performance2.txt, bbc-performance3.txt ect.. 
+    
     count = 1
     global bbc_performance_file_name
     while os.path.isfile(bbc_performance_file_name) :
@@ -34,10 +45,8 @@ def textfile_generator():
         count +=1
 
 def plot_bbc_groups():
-    '''
-    TASK 1 - Question 2
-    2 - Plot the distribution of the instances in each class and save the graphic in a file called BBC-distribution.pdf.
-    '''
+    # TASK 1 - Question 2
+    # 2 - Plot the distribution of the instances in each class and save the graphic in a file called BBC-distribution.pdf.
     nbrFilesPerCtgry = []
     for directory in directories:
         dirListing = os.listdir(directory)
@@ -50,37 +59,18 @@ def plot_bbc_groups():
     plt.savefig("Results//BBC-distribution.pdf", dpi = 100)
 
 def assign_category_name(bbc_loaded_files,smoothing):
-    '''
-    TASK 1 - Question 3-4-5
-    3 - Loads the corpus
-    4 - Pre-processes the dataset to have the features ready to be used by multinomial Naive Bayes classifier
-    5 - Splits the dataset into 80% for training and 20% for testing
-    '''
+    #File writing variables
     f = open(bbc_performance_file_name, "a")
     print(bbc_performance_file_name)
-    'Question 3'
-    
-    #verify the count of each category and get the target names (categories) and store as 'labels_str' now labels is value 0-4
-    
-    #print(labels_str,counts)
 
-    'Question 5'
-    #bbc_loadfiles.data is the data itself
-    #bbc_loadfiles.target is the labels/categories
-    
-    #print('80%:',len(X_train),'20%:',len(X_test))
-
-    'Question 4'
-    #it is best to use only the testing set to form our matrix
-
-    'Question 6/7a'
+    #Question 6/
     #clf stands for classifier
     clf = MultinomialNB(alpha=smoothing)
-    #transform the data to document term matrix and pass labels
+    #pass labels and document term matrix
     clf.fit(doc_matrix, Y_train)
     Y_pred = clf.predict(vectorizer.transform(X_test))
     #print(clf.feature_count_)
-    'Question 7'
+    #Question 7
     print('Confusion Matrix: ')
     print(confusion_matrix(Y_test, Y_pred)) #b
     print('\nClassification Report: ')
@@ -136,9 +126,11 @@ def assign_category_name(bbc_loaded_files,smoothing):
                 word_count_per_label = word_count_per_label + count_for_this_word
             else:
                 word_count_per_label = word_count_per_label + count_for_this_word
-        print(labels_str[curr_lbl],':G, Word count for this label: ',word_count_per_label) #g
+        #g
+        print(labels_str[curr_lbl],':G, Word count for this label: ',word_count_per_label) 
         f.write(str(labels_str[curr_lbl]) + ':G, Word count for this label: '+ str(word_count_per_label)+'\n')
-        print(labels_str[curr_lbl],':I, Number of zero counts per word found in this label: ', zero_count_for_this_label, ' Percentage: ', round(((zero_count_for_this_label/word_count_per_label)*100),2),'%')#I
+        #I
+        print(labels_str[curr_lbl],':I, Number of zero counts per word found in this label: ', zero_count_for_this_label, ' Percentage: ', round(((zero_count_for_this_label/word_count_per_label)*100),2),'%')
         f.write(str(labels_str[curr_lbl])+':I, Number of zero counts per word found in this label: '+ str(zero_count_for_this_label)+ ' Percentage: '+ str(round(((zero_count_for_this_label/word_count_per_label)*100),2))+'%\n')
         print('-------------------')
         f.write('-------------------\n')
@@ -147,10 +139,11 @@ def assign_category_name(bbc_loaded_files,smoothing):
         zero_count_for_this_label = 0
         word_count_per_label = 0
         curr_lbl = curr_lbl + 1
-
-    print('\nH, total words in all folders/files: ', total_words_in_X_train)#h
+    #h
+    print('\nH, total words in all folders/files: ', total_words_in_X_train)
     f.write('\nH, total words in all folders/files: '+ str(total_words_in_X_train))
-    print('J, Number of singular words in X_ train corpus: ', total_one_count_words_in_X_train, 'Percentage: ',round(((total_one_count_words_in_X_train/total_words_in_X_train)*100),2),'%')#J
+    #J
+    print('J, Number of singular words in X_ train corpus: ', total_one_count_words_in_X_train, 'Percentage: ',round(((total_one_count_words_in_X_train/total_words_in_X_train)*100),2),'%')
     f.write('\nJ, Number of singular words in X_ train corpus: '+ str(total_one_count_words_in_X_train) + 'Percentage: '+str(round(((total_one_count_words_in_X_train/total_words_in_X_train)*100),2))+'%')
     print("-"*58)
     f.write('\n'+"-"*58+'\n')
@@ -168,12 +161,16 @@ def assign_category_name(bbc_loaded_files,smoothing):
 
 textfile_generator()
 plot_bbc_groups()
+#7a
 print("-"*20,"try 1","-"*20)
 assign_category_name(bbc_loaded_files, 1.0)
+#8
 print("-"*20,"try 2","-"*20)
 assign_category_name(bbc_loaded_files, 1.0)
+#9
 print("-"*20,"Smoothing 0.0001","-"*20)
 assign_category_name(bbc_loaded_files, 0.0001)
+#10
 print("-"*20,"Smoothing 0.9","-"*20)
 assign_category_name(bbc_loaded_files, 0.9)
 
