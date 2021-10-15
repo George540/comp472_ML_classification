@@ -8,6 +8,22 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix, f1_score
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import Perceptron
+
+drug_performance_file_name = 'Results\\drug-performance.txt'
+
+def textfile_generator():
+    
+    # Function verifies if bbc-performance.txt exists
+    # IF file exists it will increment 1 to the name of the file
+    # I.E. drug-performance1.txt, drug-performance2.txt, drug-performance3.txt ect.. 
+    
+    count = 1
+    global drug_performance_file_name
+    while os.path.isfile(drug_performance_file_name) :
+        drug_performance_file_name = 'Results\\drug-performance'+str(count)+'.txt'
+        count +=1
 
 def taskTwo():
     #2. Loads drug dataset to in Python to pandas dataframe using read_csv
@@ -39,16 +55,62 @@ def taskTwo():
     '''
     y = df.pop('Drug')
     X = df
-    X_train,X_test,y_train,y_test = train_test_split(X,y ,test_size=0.2)
+    X_train,X_test,y_train,y_test = train_test_split(X,y)
     vectorizer = CountVectorizer(lowercase=False)
     vectorizer.fit(X_train)
     doc_matrix = vectorizer.transform(X_train)
 
     #6 Run 6 different classifier
     #6-a) Gaussian Naive Bayes Classifier
+    asterisks = "-"*20
+    f.write("\n---------------------------------------- \n")
+    print("\n1) GaussianNB\n")
+    f.write("\n1) GaussianNB\n")
     gnb = GaussianNB()
-    y_pred = gnb.fit(X_train, y_train).predict(X_test)
-    print("Number of mislabeled points out of a total %d points : %d" % (X_test.shape[0], (y_test != y_pred).sum()))
+    y_pred_nb = gnb.fit(X_train, y_train).predict(X_test)
+    # print("Number of mislabeled points out of a total %d points : %d" % (X_test.shape[0], (y_test != y_pred).sum()))
+    print_reports(y_test, y_pred_nb)
+
+    print("----------------------------------------")
+    f.write("\n----------------------------------------\n")
+    print("\n2) Base-DT\n")
+    f.write("\n2) Base-DT\n")
+    bdt = DecisionTreeClassifier()
+    y_pred_bdt = bdt.fit(X_train, y_train).predict(X_test)
+    print_reports(y_test, y_pred_bdt)
+
+    print("----------------------------------------")
+    f.write("\n----------------------------------------\n")
+    print("\n4) Perceptron\n")
+    f.write("\n4) Perceptron\n")
+    pct = Perceptron()
+    #y_pred_pct = pct.predict(pct.fit(X_train, y_train))
+    #print_reports(y_test, y_pred_pct)
+
+def print_reports(y_test, y_pred):
+    print('\nConfusion Matrix')
+    print(confusion_matrix(y_test, y_pred))
+    print('\nClassification Report: ')
+    print(classification_report(y_test, y_pred))
+    print('\nAccuracy Score: ')
+    print(accuracy_score(y_test, y_pred))
+    print('\nF1 score, macro: ')
+    print(f1_score(y_test, y_pred, average='macro'))
+    print('\nF1 score, weighted: ')
+    print(f1_score(y_test, y_pred, average='weighted'))
+
+    f.write('\nConfusion Matrix\n')
+    f.write(str(confusion_matrix(y_test, y_pred)))
+    f.write('\nClassification Report: \n')
+    f.write(str(classification_report(y_test, y_pred)))
+    f.write('\nAccuracy Score: \n')
+    f.write(str(accuracy_score(y_test, y_pred)))
+    f.write('\nF1 score, macro: \n')
+    f.write(str(f1_score(y_test, y_pred, average='macro')))
+    f.write('\nF1 score, weighted: \n')
+    f.write(str(f1_score(y_test, y_pred, average='weighted')))
 
 
+textfile_generator()
+f = open(drug_performance_file_name, "a")
 taskTwo()
