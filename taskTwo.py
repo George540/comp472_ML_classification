@@ -11,7 +11,7 @@ from sklearn.metrics import classification_report, accuracy_score, confusion_mat
 
 def taskTwo():
     #2. Loads drug dataset to in Python to pandas dataframe using read_csv
-    df = pd.read_csv('Datasets\Drugs\drug200.csv')
+    df = pd.read_csv('Datasets\Drugs\drug200.csv', dtype=str)
 
     #3 Plot distribution of instances of each class and saves to PDF
     df['Drug'].value_counts().plot(kind='bar')
@@ -39,8 +39,11 @@ def taskTwo():
     '''
     y = df.pop('Drug')
     X = df
-    X_train,X_test,y_train,y_test = train_test_split(X.index,y ,test_size=0.2)
-    
+    X_train,X_test,y_train,y_test = train_test_split(X,y ,test_size=0.2)
+    vectorizer = CountVectorizer(lowercase=False)
+    vectorizer.fit(X_train)
+    doc_matrix = vectorizer.transform(X_train)
+
     #6 Run 6 different classifier
     #6-a) Gaussian Naive Bayes Classifier
     gnb = GaussianNB()
