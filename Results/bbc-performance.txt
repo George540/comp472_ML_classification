@@ -1,4 +1,4 @@
-Confusion Matrix: 
+----------try 1----------Confusion Matrix: 
 [[ 92   0   2   0   1]
  [  0  77   1   0   1]
  [  2   1  77   0   1]
@@ -67,7 +67,7 @@ J, Number of singular words in X_ train corpus: 64747Percentage: 9.64%
 [Sport ] Log-Prob of word 'GAMING':-4.745116146223298
 [Sport ] Log-Prob of word 'LEGENDARY':-1.582319705047123
 [Technology ] Log-Prob of word 'GAMING':-0.1503819244563136
-[Technology ] Log-Prob of word 'LEGENDARY':-2.3902628651524154Confusion Matrix: 
+[Technology ] Log-Prob of word 'LEGENDARY':-2.3902628651524154----------try 2----------Confusion Matrix: 
 [[ 92   0   2   0   1]
  [  0  77   1   0   1]
  [  2   1  77   0   1]
@@ -136,7 +136,7 @@ J, Number of singular words in X_ train corpus: 64747Percentage: 9.64%
 [Sport ] Log-Prob of word 'GAMING':-4.745116146223298
 [Sport ] Log-Prob of word 'LEGENDARY':-1.582319705047123
 [Technology ] Log-Prob of word 'GAMING':-0.1503819244563136
-[Technology ] Log-Prob of word 'LEGENDARY':-2.3902628651524154Confusion Matrix: 
+[Technology ] Log-Prob of word 'LEGENDARY':-2.3902628651524154----------Smoothing 0.0001----------Confusion Matrix: 
 [[ 92   0   2   0   1]
  [  0  78   1   0   0]
  [  2   1  77   0   1]
@@ -205,7 +205,7 @@ J, Number of singular words in X_ train corpus: 64747Percentage: 9.64%
 [Sport ] Log-Prob of word 'GAMING':-13.89269282164454
 [Sport ] Log-Prob of word 'LEGENDARY':-1.6726696602541011
 [Technology ] Log-Prob of word 'GAMING':-0.12211511915028517
-[Technology ] Log-Prob of word 'LEGENDARY':-2.7959627810962964Confusion Matrix: 
+[Technology ] Log-Prob of word 'LEGENDARY':-2.7959627810962964----------Smoothing 0.9----------Confusion Matrix: 
 [[ 92   0   2   0   1]
  [  0  78   0   0   1]
  [  2   1  77   0   1]
