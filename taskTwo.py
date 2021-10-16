@@ -10,6 +10,7 @@ from sklearn.metrics import classification_report, accuracy_score, confusion_mat
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import Perceptron
 from sklearn.neural_network import MLPClassifier
+from sklearn.model_selection import GridSearchCV
 
 drug_performance_file_name = 'Results\\drug-performance.txt'
 
@@ -78,6 +79,15 @@ def taskTwo():
     bdt = DecisionTreeClassifier()
     y_pred_bdt = bdt.fit(X_train, y_train).predict(X_test)
     print_reports(y_test, y_pred_bdt)
+
+    print("----------------------------------------")
+    f.write("\n----------------------------------------\n")
+    print("\n3) Top-DT\n")
+    f.write("\n3) Top-DT\n")
+    parameters = {'criterion':['gini', 'entropy'], 'max_depth':[4,5], 'min_samples_split':[4,5,6]}
+    gsc = GridSearchCV(DecisionTreeClassifier(), parameters)
+    y_pred_tdt = gsc.fit(X_train, y_train).predict(X_test)
+    print_reports(y_test, y_pred_tdt)
 
     print("----------------------------------------")
     f.write("\n----------------------------------------\n")

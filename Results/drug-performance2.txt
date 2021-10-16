@@ -1,0 +1,120 @@
+
+---------------------------------------- 
+
+1) GaussianNB
+
+Confusion Matrix
+[[ 5  0  0  0  0]
+ [ 0  3  0  0  0]
+ [ 0  0  3  0  0]
+ [ 0  0  0 15  0]
+ [ 0  1  4  0 19]]
+Classification Report: 
+              precision    recall  f1-score   support
+
+       drugA       1.00      1.00      1.00         5
+       drugB       0.75      1.00      0.86         3
+       drugC       0.43      1.00      0.60         3
+       drugX       1.00      1.00      1.00        15
+       drugY       1.00      0.79      0.88        24
+
+    accuracy                           0.90        50
+   macro avg       0.84      0.96      0.87        50
+weighted avg       0.95      0.90      0.91        50
+
+Accuracy Score: 
+0.9
+F1 score, macro: 
+0.868172757475083
+F1 score, weighted: 
+0.9116146179401994
+----------------------------------------
+
+2) Base-DT
+
+Confusion Matrix
+[[ 5  0  0  0  0]
+ [ 0  3  0  0  0]
+ [ 0  0  3  0  0]
+ [ 0  0  0 15  0]
+ [ 0  0  0  0 24]]
+Classification Report: 
+              precision    recall  f1-score   support
+
+       drugA       1.00      1.00      1.00         5
+       drugB       1.00      1.00      1.00         3
+       drugC       1.00      1.00      1.00         3
+       drugX       1.00      1.00      1.00        15
+       drugY       1.00      1.00      1.00        24
+
+    accuracy                           1.00        50
+   macro avg       1.00      1.00      1.00        50
+weighted avg       1.00      1.00      1.00        50
+
+Accuracy Score: 
+1.0
+F1 score, macro: 
+1.0
+F1 score, weighted: 
+1.0
+----------------------------------------
+
+3) Top-DT
+
+Confusion Matrix
+[[ 5  0  0  0  0]
+ [ 0  3  0  0  0]
+ [ 0  0  3  0  0]
+ [ 0  0  0 15  0]
+ [ 0  0  0  0 24]]
+Classification Report: 
+              precision    recall  f1-score   support
+
+       drugA       1.00      1.00      1.00         5
+       drugB       1.00      1.00      1.00         3
+       drugC       1.00      1.00      1.00         3
+       drugX       1.00      1.00      1.00        15
+       drugY       1.00      1.00      1.00        24
+
+    accuracy                           1.00        50
+   macro avg       1.00      1.00      1.00        50
+weighted avg       1.00      1.00      1.00        50
+
+Accuracy Score: 
+1.0
+F1 score, macro: 
+1.0
+F1 score, weighted: 
+1.0
+----------------------------------------
+
+4) Perceptron
+
+Confusion Matrix
+[[ 0  0  1  0  4]
+ [ 0  0  0  0  3]
+ [ 0  0  0  0  3]
+ [ 0  0  2  0 13]
+ [ 0  0  0  0 24]]
+Classification Report: 
+              precision    recall  f1-score   support
+
+       drugA       0.00      0.00      0.00         5
+       drugB       0.00      0.00      0.00         3
+       drugC       0.00      0.00      0.00         3
+       drugX       0.00      0.00      0.00        15
+       drugY       0.51      1.00      0.68        24
+
+    accuracy                           0.48        50
+   macro avg       0.10      0.20      0.14        50
+weighted avg       0.25      0.48      0.32        50
+
+Accuracy Score: 
+0.48
+F1 score, macro: 
+0.1352112676056338
+F1 score, weighted: 
+0.3245070422535211
+----------------------------------------
+
+4) Base-MLP Perceptron
