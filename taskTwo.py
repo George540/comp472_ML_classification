@@ -3,7 +3,6 @@ import numpy as np
 import os
 import pandas as pd
 import os.path
-from sklearn.datasets import load_files
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
@@ -30,8 +29,8 @@ def taskTwo():
     df = pd.read_csv('Datasets\Drugs\drug200.csv', dtype=str)
 
     #3 Plot distribution of instances of each class and saves to PDF
-    df['Drug'].value_counts().plot(kind='bar')
-    plt.savefig("Results//drug-distribution.pdf", dpi = 100)
+    #df['Drug'].value_counts().plot(kind='bar')
+    #plt.savefig("Results//drug-distribution.pdf", dpi = 100)
 
     #4 Covert all ordinal and nominal features to numerical format
     '''
@@ -84,8 +83,16 @@ def taskTwo():
     print("\n4) Perceptron\n")
     f.write("\n4) Perceptron\n")
     pct = Perceptron()
-    #y_pred_pct = pct.predict(pct.fit(X_train, y_train))
-    #print_reports(y_test, y_pred_pct)
+    pct.fit(X_train, y_train)
+    y_pred_pct = pct.predict(X_test)
+    print_report_perceptron(y_test, y_pred_pct)
+
+    print("----------------------------------------")
+    f.write("\n----------------------------------------\n")
+    print("\n4) Base-MLP Perceptron\n")
+    f.write("\n4) Base-MLP Perceptron\n")
+    
+
 
 def print_reports(y_test, y_pred):
     print('\nConfusion Matrix')
@@ -109,6 +116,29 @@ def print_reports(y_test, y_pred):
     f.write(str(f1_score(y_test, y_pred, average='macro')))
     f.write('\nF1 score, weighted: \n')
     f.write(str(f1_score(y_test, y_pred, average='weighted')))
+
+def print_report_perceptron(y_test, y_pred):
+    print('\nConfusion Matrix')
+    print(confusion_matrix(y_test, y_pred))
+    print('\nClassification Report: ')
+    print(classification_report(y_test, y_pred, zero_division=0))
+    print('\nAccuracy Score: ')
+    print(accuracy_score(y_test, y_pred))
+    print('\nF1 score, macro: ')
+    print(f1_score(y_test, y_pred, average='macro'))
+    print('\nF1 score, weighted: ')
+    print(f1_score(y_test, y_pred, average='weighted',zero_division=0))
+
+    f.write('\nConfusion Matrix\n')
+    f.write(str(confusion_matrix(y_test, y_pred)))
+    f.write('\nClassification Report: \n')
+    f.write(str(classification_report(y_test, y_pred, zero_division=0)))
+    f.write('\nAccuracy Score: \n')
+    f.write(str(accuracy_score(y_test, y_pred)))
+    f.write('\nF1 score, macro: \n')
+    f.write(str(f1_score(y_test, y_pred, average='macro')))
+    f.write('\nF1 score, weighted: \n')
+    f.write(str(f1_score(y_test, y_pred, average='weighted', zero_division=0)))
 
 
 textfile_generator()

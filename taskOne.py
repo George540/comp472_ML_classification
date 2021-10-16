@@ -1,7 +1,6 @@
 from matplotlib import pyplot as plt
 import numpy as np
 import os
-import pandas as pd
 import os.path
 from sklearn.datasets import load_files
 from sklearn.feature_extraction.text import CountVectorizer
