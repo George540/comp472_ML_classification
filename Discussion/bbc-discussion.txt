@@ -1,0 +1,12 @@
+(a) what metric is best suited to this dataset/task and why
+With text classification, we argue that it is more important to
+prioritize a higher precision accuracy. We can compare
+this task (task 1) with that of spam filtering in an email.
+Where we would like the algorithm to NOT classify a file incorrectly
+and then classify it in the wrong label/folder. In the 4 reports that
+we have, the accuracy increased as the smoothing value was changed
+to 0.9. Along with the F1 score, weighted and macro. In order
+to achieve the higher preceision importance, we would have to change
+beta in the F score to < 1.
+
+(b) why the performance of steps (8-10) are the same or are different than those of step (7) above

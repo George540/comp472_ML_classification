@@ -163,18 +163,18 @@ f = open(bbc_performance_file_name, "a")
 plot_bbc_groups()
 #7a
 print("-"*20,"try 1","-"*20)
-f.write("-"*20,"try 1","-"*20)
+f.write("----------try 1----------")
 assign_category_name(bbc_loaded_files, 1.0)
 #8
 print("-"*20,"try 2","-"*20)
-f.write("-"*20,"try 2","-"*20)
+f.write("----------try 2----------")
 assign_category_name(bbc_loaded_files, 1.0)
 #9
 print("-"*20,"Smoothing 0.0001","-"*20)
-f.write("-"*20,"Smoothing 0.0001","-"*20)
+f.write("----------Smoothing 0.0001----------")
 assign_category_name(bbc_loaded_files, 0.0001)
 #10
 print("-"*20,"Smoothing 0.9","-"*20)
-f.write("-"*20,"Smoothing 0.9","-"*20)
+f.write("----------Smoothing 0.9----------")
 assign_category_name(bbc_loaded_files, 0.9)
 
