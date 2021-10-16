@@ -102,10 +102,21 @@ def taskTwo():
     f.write("\n----------------------------------------\n")
     print("\n4) Base-MLP Perceptron\n")
     f.write("\n4) Base-MLP Perceptron\n")
-    MLPpct = MLPClassifier(hidden_layer_sizes=(100,), activation="logistic", solver="sgd")
+    #Iterations are deafulted to 100. I tried 5000 and it was enough to
+    #covnerge to minimum
+    MLPpct = MLPClassifier(hidden_layer_sizes=(100), activation="logistic", solver="sgd")
     MLPpct.fit(X_train, y_train)
     y_pred_MLPpct = MLPpct.predict(X_test)
     print_report_perceptron(y_test, y_pred_MLPpct)
+
+    print("----------------------------------------")
+    f.write("\n----------------------------------------\n")
+    print("\n4) Top-MLP Perceptron\n")
+    f.write("\n4) Top-MLP Perceptron\n")
+    parameters = {'activation':['identity', 'logistic', 'tanh', 'relu'],'hidden_layer_sizes':[(30,50), (10,10,10)],'solver':['adam', 'sgd']}
+    TOPMLPgsc = GridSearchCV(MLPClassifier(), parameters)
+    y_pred_TOPMLP = TOPMLPgsc.fit(X_train, y_train).predict(X_test)
+    print_reports(y_test, y_pred_TOPMLP)
 
 
 def print_reports(y_test, y_pred):
