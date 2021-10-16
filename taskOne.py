@@ -158,8 +158,8 @@ def assign_category_name(bbc_loaded_files,smoothing):
             print('[ %s ] Log-Prob of word \'%s\': %s' % (label, word.upper(), probabilities[row][col]))
             f.write('\n[' +str(label)+' ] Log-Prob of word \''+str(word.upper())+'\':'+str(probabilities[row][col]))
 
-textfile_generator()
-f = open(bbc_performance_file_name, "a")
+#textfile_generator()
+f = open(bbc_performance_file_name, "w")
 plot_bbc_groups()
 #7a
 print("-"*20,"try 1","-"*20)
