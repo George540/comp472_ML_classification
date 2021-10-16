@@ -9,6 +9,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import classification_report, accuracy_score, confusion_matrix, f1_score
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import Perceptron
+from sklearn.neural_network import MLPClassifier
 
 drug_performance_file_name = 'Results\\drug-performance.txt'
 
@@ -91,7 +92,10 @@ def taskTwo():
     f.write("\n----------------------------------------\n")
     print("\n4) Base-MLP Perceptron\n")
     f.write("\n4) Base-MLP Perceptron\n")
-    
+    MLPpct = MLPClassifier(hidden_layer_sizes=(100,), activation="logistic", solver="sgd")
+    MLPpct.fit(X_train, y_train)
+    y_pred_MLPpct = MLPpct.predict(X_test)
+    print_report_perceptron(y_test, y_pred_MLPpct)
 
 
 def print_reports(y_test, y_pred):
