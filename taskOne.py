@@ -133,7 +133,6 @@ def assign_category_name(bbc_loaded_files,smoothing):
 def runTaskOne():
     plot_bbc_groups()
     #7a
-    #print("-"*20,"try 1","-"*20)
     f.write("----------try 1----------\n\n")
     assign_category_name(bbc_loaded_files, 1.0)
     #8
