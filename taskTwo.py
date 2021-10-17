@@ -62,7 +62,14 @@ def taskTwo():
     vectorizer = CountVectorizer(lowercase=False)
     vectorizer.fit(X_train)
     doc_matrix = vectorizer.transform(X_train)
+    return X_train,X_test,y_train,y_test
 
+def question_six(X_train,X_test,y_train,y_test):
+    '''
+    This function takes all the values created by the train_test_split
+    and applied the different classifiers
+    This function is separated, as we need to run it 10 times.
+    '''
     #6 Run 6 different classifier
     #6-a) Gaussian Naive Bayes Classifier
     f.write("\n---------------------------------------- \n")
@@ -169,9 +176,10 @@ def runTaskTwo():
     Contains the bulk of Task 2. This function runs the classifiers 10x and prints the results to drug-performance.txt
     After the classifiers are run, the average results are calculated.
     '''
+    X_train,X_test,y_train,y_test = taskTwo()
     for i in range(10):
         print('Task Two Notice: Executing classifiers ('+ str(i+1)+ '/10)...')
-        taskTwo()
+        question_six(X_train,X_test,y_train,y_test)
     f.write('\n\n-----------------------------------------------FINAL RESULTS-----------------------------------------------')
     f.write('\n1. Average Accuracies')
     f.write('\n\ta) Gaussian Naive Bayes Classifier Average Accuracy: ')
