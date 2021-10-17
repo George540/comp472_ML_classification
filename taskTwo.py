@@ -1,3 +1,9 @@
+##########################################
+## taskTwo.py (Mini-Assignment 1 COMP 472)
+## This code contains the execution of all operations for Task 2
+## Created by Team Oranges
+##########################################
+
 from matplotlib import pyplot as plt
 import numpy as np
 import os
@@ -24,33 +30,32 @@ Top_MLP_results = {'accuracy-score-sum': [], 'f1-score-macro-sum': [], 'f1-score
 f = open(drug_performance_file_name, "w") 
 
 def taskTwo():
+    '''
+    Executes each step of task two. 
+    In general this function reads the csv, sets it to a dataframe, then runs the classifiers on the data in order to extract the results.
+    '''
+
     #2. Loads drug dataset to in Python to pandas dataframe using read_csv
     df = pd.read_csv('Datasets\Drugs\drug200.csv', dtype=str)
 
     #3 Plot distribution of instances of each class and saves to PDF
-    #df['Drug'].value_counts().plot(kind='bar')
-    #plt.savefig("Results//drug-distribution.pdf", dpi = 100)
+    df['Drug'].value_counts().plot(kind='bar')
+    plt.savefig("Results//drug-distribution.pdf", dpi = 100)
 
     #4 Covert all ordinal and nominal features to numerical format
-    '''
-    get_dummies is used to turn nominal values into 1-0s
-    Categorical is used to turn ordinal values in ordered ranges from 0-2. (ie High = 2, Normal = 1, Low = 1)
-    '''
+    # get_dummies is used to turn nominal values into 1-0s
+    # Categorical is used to turn ordinal values in ordered ranges from 0-2. (ie High = 2, Normal = 1, Low = 1)
+
     temp_df = pd.get_dummies(df['Sex'])
     df = df.drop('Sex', axis = 1)
     df = df.join(temp_df)
-    #temp_df = pd.get_dummies(df['Drug'])
-    #df = df.drop('Drug', axis = 1)
-    #df = df.join(temp_df)
     df['BP'] = pd.Categorical(df['BP'], ordered = True, categories=['LOW', 'NORMAL', 'HIGH'])
     df['BP'] = df['BP'].cat.codes
     df['Cholesterol'] = pd.Categorical(df['Cholesterol'], ordered = True, categories=['LOW', 'NORMAL', 'HIGH'])
     df['Cholesterol'] = df['Cholesterol'].cat.codes
 
     #5 Split dataset using train_test_split using the default parameter values
-    '''
-    Because we are using a dataframe we need to extract the label Drug in order to use train_test_split()
-    '''
+    #Because we are using a dataframe we need to extract the label Drug in order to use train_test_split(), since drug is our label
     y = df.pop('Drug')
     X = df
     X_train,X_test,y_train,y_test = train_test_split(X,y)
@@ -60,21 +65,17 @@ def taskTwo():
 
     #6 Run 6 different classifier
     #6-a) Gaussian Naive Bayes Classifier
-    asterisks = "-"*20
     f.write("\n---------------------------------------- \n")
-    #print("\n1) GaussianNB\n")
     f.write("\n1) GaussianNB\n")
     gnb = GaussianNB()
     y_pred_nb = gnb.fit(X_train, y_train).predict(X_test)
-    # print("Number of mislabeled points out of a total %d points : %d" % (X_test.shape[0], (y_test != y_pred).sum()))
     temp = print_reports(y_test, y_pred_nb)
     NB_results['accuracy-score-sum'].append(temp['accuracy-score'])
     NB_results['f1-score-macro-sum'].append(temp['f1-score-macro'])
     NB_results['f1-score-weighted-sum'].append(temp['f1-score-weighted'])
 
-    #print("----------------------------------------")
+    #6-b) Base-DT: Decision Tree
     f.write("\n----------------------------------------\n")
-    #print("\n2) Base-DT\n")
     f.write("\n2) Base-DT\n")
     bdt = DecisionTreeClassifier()
     y_pred_bdt = bdt.fit(X_train, y_train).predict(X_test)
@@ -84,9 +85,9 @@ def taskTwo():
     Base_DT_results['f1-score-macro-sum'].append(temp['f1-score-macro'])
     Base_DT_results['f1-score-weighted-sum'].append(temp['f1-score-weighted'])
 
-    #print("----------------------------------------")
+    #6-c) Top-DT: Better performing decision tree
+    # Using GridSearchCV we input the parameters gini, entropy, max depth as 4,5 and min_samples_split as 4,5,6
     f.write("\n----------------------------------------\n")
-    #print("\n3) Top-DT\n")
     f.write("\n3) Top-DT\n")
     parameters = {'criterion':['gini', 'entropy'], 'max_depth':[4,5], 'min_samples_split':[4,5,6]}
     gsc = GridSearchCV(DecisionTreeClassifier(), parameters)
@@ -96,9 +97,8 @@ def taskTwo():
     Top_DT_results['f1-score-macro-sum'].append(temp['f1-score-macro'])
     Top_DT_results['f1-score-weighted-sum'].append(temp['f1-score-weighted'])
 
-    #print("----------------------------------------")
+    #6-d) Perceptron
     f.write("\n----------------------------------------\n")
-    #print("\n4) Perceptron\n")
     f.write("\n4) Perceptron\n")
     pct = Perceptron()
     pct.fit(X_train, y_train)
@@ -108,12 +108,9 @@ def taskTwo():
     Per_results['f1-score-macro-sum'].append(temp['f1-score-macro'])
     Per_results['f1-score-weighted-sum'].append(temp['f1-score-weighted'])
 
-    #print("----------------------------------------")
+    #6-e) Base-MLP: Multi-layered Perceptron with 1 hidden layer of 100 neurons
     f.write("\n----------------------------------------\n")
-    #print("\n5) Base-MLP Perceptron\n")
     f.write("\n5) Base-MLP Perceptron\n")
-    #Iterations are deafulted to 100. I tried 5000 and it was enough to
-    #covnerge to minimum
     MLPpct = MLPClassifier(hidden_layer_sizes=(100), activation="logistic", solver="sgd")
     MLPpct.fit(X_train, y_train)
     y_pred_MLPpct = MLPpct.predict(X_test)
@@ -122,9 +119,8 @@ def taskTwo():
     Base_MLP_results['f1-score-macro-sum'].append(temp['f1-score-macro'])
     Base_MLP_results['f1-score-weighted-sum'].append(temp['f1-score-weighted'])
 
-    #print("----------------------------------------")
+    #6-f) TOP-MLP: Better performing Multi-Layered Perceptron
     f.write("\n----------------------------------------\n")
-    #print("\n6) Top-MLP Perceptron\n")
     f.write("\n6) Top-MLP Perceptron\n")
     parameters = {'activation':['identity', 'logistic', 'tanh', 'relu'],'hidden_layer_sizes':[(30,50), (10,10,10)],'solver':['adam', 'sgd']}
     TOPMLPgsc = GridSearchCV(MLPClassifier(), parameters)
@@ -135,17 +131,10 @@ def taskTwo():
     Top_MLP_results['f1-score-weighted-sum'].append(temp['f1-score-weighted'])
 
 def print_reports(y_test, y_pred):
-    #print('\nConfusion Matrix')
-    #print(confusion_matrix(y_test, y_pred))
-    #print('\nClassification Report: ')
-    #print(classification_report(y_test, y_pred))
-    #print('\nAccuracy Score: ')
-    #print(accuracy_score(y_test, y_pred))
-    #print('\nF1 score, macro: ')
-    #print(f1_score(y_test, y_pred, average='macro'))
-    #print('\nF1 score, weighted: ')
-    #print(f1_score(y_test, y_pred, average='weighted'))
-
+    '''
+    Re-use of code to print results to drug-performance.txt
+    This function contains the confusion matrix, classification report, accuracy score, f1-score and weighted f1-score
+    '''
     f.write('\nConfusion Matrix\n')
     f.write(str(confusion_matrix(y_test, y_pred)))
     f.write('\nClassification Report: \n')
@@ -159,17 +148,10 @@ def print_reports(y_test, y_pred):
     return {'accuracy-score': accuracy_score(y_test, y_pred), 'f1-score-macro': f1_score(y_test, y_pred, average='macro'), 'f1-score-weighted': f1_score(y_test, y_pred, average='weighted')}
 
 def print_report_perceptron(y_test, y_pred):
-    #print('\nConfusion Matrix')
-    #print(confusion_matrix(y_test, y_pred))
-    #print('\nClassification Report: ')
-    #print(classification_report(y_test, y_pred, zero_division=0))
-    #print('\nAccuracy Score: ')
-    #print(accuracy_score(y_test, y_pred))
-    #print('\nF1 score, macro: ')
-    #print(f1_score(y_test, y_pred, average='macro'))
-    #print('\nF1 score, weighted: ')
-    #print(f1_score(y_test, y_pred, average='weighted',zero_division=0))
-
+    '''
+    Re-use of code to print results to drug-performance.txt, but adds zero_division for perceptron results
+    This function contains the confusion matrix, classification report, accuracy score, f1-score and weighted f1-score
+    '''
     f.write('\nConfusion Matrix\n')
     f.write(str(confusion_matrix(y_test, y_pred)))
     f.write('\nClassification Report: \n')
@@ -182,8 +164,11 @@ def print_report_perceptron(y_test, y_pred):
     f.write(str(f1_score(y_test, y_pred, average='weighted', zero_division=0)))
     return {'accuracy-score': accuracy_score(y_test, y_pred), 'f1-score-macro': f1_score(y_test, y_pred, average='macro'), 'f1-score-weighted': f1_score(y_test, y_pred, average='weighted')}
 
-
 def runTaskTwo():
+    '''
+    Contains the bulk of Task 2. This function runs the classifiers 10x and prints the results to drug-performance.txt
+    After the classifiers are run, the average results are calculated.
+    '''
     for i in range(10):
         print('Task Two Notice: Executing classifiers x'+ str(i+1)+ '...')
         taskTwo()
