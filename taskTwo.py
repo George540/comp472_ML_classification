@@ -170,7 +170,7 @@ def runTaskTwo():
     After the classifiers are run, the average results are calculated.
     '''
     for i in range(10):
-        print('Task Two Notice: Executing classifiers x'+ str(i+1)+ '...')
+        print('Task Two Notice: Executing classifiers ('+ str(i+1)+ '/10)...')
         taskTwo()
     f.write('\n\n-----------------------------------------------FINAL RESULTS-----------------------------------------------')
     f.write('\n1. Average Accuracies')
