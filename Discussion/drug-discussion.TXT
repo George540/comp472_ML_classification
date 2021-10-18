@@ -1,0 +1,14 @@
+8. Redo steps 6, 10 times for each model and append the average accuracy, average macro-average F1,
+average weighted-average F1 as well as the standard deviation for the accuracy, the standard deviation
+of the macro-average F1, and the standard deviation of the weighted-average F1 at the end of the file
+drugs-performance.txt. Does the same model give you the same performance every time? Explain in a
+plain text file called drugs-discussion.txt. A 1 or 2 paragraph discussion is expected.
+
+The purpose of this task is to experiment with a set of data using different machine learning
+models. Six different models were used of types Naive Bayes, Decision Trees and Perceptrons.
+Based on the default parameters of train_test_split(), it is expected to get different results
+for every run. Since the instructions specified only step 6, the same dataset was used for all
+10 runs of the models. It is believed that the professor made an unintended error, where all
+steps from task 2 were supposed to be included in the runs. Therefore, by running again the
+entire script from the main.py menu will give different results all the time, since there is a different
+randomization of the dataset using train_test_split() with shuffle=true (by default).
