@@ -1,3 +1,8 @@
+##########################################
+## main.py (Mini-Assignment 1 COMP 472)
+## This code contains the execution of the program's main menu
+## Created by Team Oranges
+##########################################
 
 print('Welcome to Team Oranges Mini-Assignment 1 for COMP 472')
 option = int(input('Please select one of the following options:\n1 - Run Task 1\n2 - Run Task 2\n3 - Run Task 1 and Task 2 back-to-back\n'))

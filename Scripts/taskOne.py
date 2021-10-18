@@ -147,3 +147,6 @@ def runTaskOne():
     #Smoothing 0.9
     f.write("\n\n----------Smoothing 0.9----------\n\n")
     assign_category_name(bbc_loaded_files, 0.9)
+    #Extra: Smoothing 0.5
+    f.write("\n\n----------Smoothing 0.5----------\n\n")
+    assign_category_name(bbc_loaded_files, 0.5)

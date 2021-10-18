@@ -1,11 +1,13 @@
+Download the code from [github](https://github.com/George540/comp472_mini_project_1)
+
 # Mini-Project 1 - COMP 472
 
-This project experiments with different machine learning algorithms and data sets, using the **scikit-learn**. The focus of this assignment lies more on experimentation rather than results.
+This project experiments with different machine learning algorithms and data sets, using **scikit-learn**. The focus of this assignment lies more on experimentation rather than results. In addition, the framework **pandas** was used to extract information from datasets in csv format.
 
 ## Requirements
 
 The proper functioning of this project requires several installations.
-- Python 3.8.3 or equivalent compatibility
+- Python 3.8.3 or equivalent compatibility (using pip or conda)
 - pyplot (python library)
 - numpy (python library)
 - pandas (python library)
