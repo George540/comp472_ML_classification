@@ -36,7 +36,7 @@ def taskTwo():
     '''
 
     #2. Loads drug dataset to in Python to pandas dataframe using read_csv
-    df = pd.read_csv('Datasets\Drugs\drug200.csv', dtype=str)
+    df = pd.read_csv('Datasets\Drugs\\test12.csv', dtype=str)
 
     #3 Plot distribution of instances of each class and saves to PDF
     df['Drug'].value_counts().plot(kind='bar')
@@ -44,7 +44,7 @@ def taskTwo():
 
     #4 Covert all ordinal and nominal features to numerical format
     # get_dummies is used to turn nominal values into 1-0s
-    # Categorical is used to turn ordinal values in ordered ranges from 0-2. (ie High = 2, Normal = 1, Low = 1)
+    # Categorical is used to turn ordinal values in ordered ranges from 0-2. (ie High = 2, Normal = 1, Low = 0)
 
     temp_df = pd.get_dummies(df['Sex'])
     df = df.drop('Sex', axis = 1)
@@ -59,9 +59,6 @@ def taskTwo():
     y = df.pop('Drug')
     X = df
     X_train,X_test,y_train,y_test = train_test_split(X,y)
-    vectorizer = CountVectorizer(lowercase=False)
-    vectorizer.fit(X_train)
-    doc_matrix = vectorizer.transform(X_train)
     return X_train,X_test,y_train,y_test
 
 def question_six(X_train,X_test,y_train,y_test):
@@ -86,7 +83,6 @@ def question_six(X_train,X_test,y_train,y_test):
     f.write("\n2) Base-DT\n")
     bdt = DecisionTreeClassifier()
     y_pred_bdt = bdt.fit(X_train, y_train).predict(X_test)
-    print_reports(y_test, y_pred_bdt)
     temp = print_reports(y_test, y_pred_bdt)
     Base_DT_results['accuracy-score-sum'].append(temp['accuracy-score'])
     Base_DT_results['f1-score-macro-sum'].append(temp['f1-score-macro'])
